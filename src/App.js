@@ -7,11 +7,13 @@ function App() {
   const [page, setPage] = useState()
   const [test, setTest] = useState(1)
 
+  const [dog, setDog] = useState('')
+
   useEffect(() => {
-    fetch(`http://localhost:9292/recipes`)
+    fetch(`http://localhost:9292/recipes${dog}`)
       .then((r) => r.json())
       .then((data) => setOptions(data))
-  }, [test])
+  }, [dog])
 
   useEffect(() => {
     fetch(`http://localhost:9292/recipes/${page}`)
@@ -23,11 +25,32 @@ function App() {
     setPage(item.id)
   }
 
+  const shortest = () => {
+    setDog('/quick')
+  }
+
+  const longest = () => {
+    setDog('/by_time')
+  }
+
+  const chicken = () => {
+    setDog('/chicken')
+  }
+
+  const veggie = () => {
+    setDog('/veggie')
+  }
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>Grocery List</h1>
+        <h3>
+          <button onClick={() => shortest()}>Shortest</button>
+          <button onClick={() => longest()}>Longest</button>
+          <button onClick={() => chicken()}>Chicken</button>
+          <button onClick={() => veggie()}>Veggie</button>
+        </h3>
         <div>
           {page && special.ingredients ? <h2>{special.name}</h2> : ''}
          {page && special.ingredients ? special.ingredients.map((item) => 
