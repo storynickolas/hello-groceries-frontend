@@ -81,7 +81,7 @@ function App() {
   }
 
   function handleDelete() {
-    fetch(`http://localhost:9292/recipes/1`, {
+    fetch(`http://localhost:9292/recipes/${special.id}`, {
       method: "DELETE",
     })
       .then((r) => r.json())
@@ -93,7 +93,6 @@ function App() {
       <header className="App-header">
         <h1>Grocery List</h1>
         <h3>
-        <button onClick={() => handleDelete()}>Delete</button>
           <button onClick={() => handleChange()}>TEST1</button>
           <button onClick={(e) => handlePost(e)}>TEST</button>
           <button onClick={() => shortest()}>Shortest</button>
@@ -102,7 +101,12 @@ function App() {
           <button onClick={() => veggie()}>Veggie</button>
         </h3>
         <div>
-          {page && special.ingredients ? <h2>{special.name}</h2> : ''}
+          {page && special.ingredients ? 
+          <div>
+          <h2>{special.name}</h2> 
+          <button onClick={() => handleDelete()}>Delete</button>
+          </div>
+            : ''}
          {page && special.ingredients ? special.ingredients.map((item) => 
             <li key={item.id + item.name}>{item.name}</li>
           ) : ''}
