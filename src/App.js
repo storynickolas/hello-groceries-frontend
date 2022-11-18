@@ -1,6 +1,7 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
 import Form from './Components/Form';
+import Edit from './Components/Edit';
 
 function App() {
   const [options, setOptions] = useState([])
@@ -91,7 +92,7 @@ function App() {
           <button onClick={() => veggie()}>Veggie</button>
         </h3>
         <div>
-          {vis ? <div>Name: <input value={curr.name} placeholder={curr.name}></input></div> : ''}
+          {vis ? <Edit selected={curr} /> : ''}
           {page && special.ingredients ? 
           <div>
           <h2>{special.name}</h2> 
