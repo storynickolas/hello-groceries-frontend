@@ -7,6 +7,8 @@ function App() {
   const [special, setSpecial] = useState([])
   const [page, setPage] = useState(1)
   const [test, setTest] = useState(1)
+  const [vis, setVis] = useState(false)
+  const [curr, setCurr] = useState()
 
   const [dog, setDog] = useState('')
 
@@ -42,8 +44,16 @@ function App() {
     setDog('/veggie')
   }
 
+  function handleEdit() {
+    console.log(special)
+    setCurr(special)
+    setVis(true)
+  }
+
+
 
   function handleChange() {
+    console.log(special)
     const itemData = {
       'name': 'test2',
       'protein': 'testing',
@@ -81,11 +91,12 @@ function App() {
           <button onClick={() => veggie()}>Veggie</button>
         </h3>
         <div>
+          {vis ? <div>Name: <input value={curr.name} placeholder={curr.name}></input></div> : ''}
           {page && special.ingredients ? 
           <div>
           <h2>{special.name}</h2> 
           <button onClick={() => handleDelete()}>Delete</button>
-          <button onClick={() => handleChange()}>Change</button>
+          <button onClick={() => handleEdit()}>Edit</button>
           </div>
             : ''}
          {page && special.ingredients ? special.ingredients.map((item) => 
