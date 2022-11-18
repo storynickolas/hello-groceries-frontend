@@ -58,8 +58,6 @@ function Form() {
 
   return (
     <div className='form-page'>
-      <br></br>
-      <br></br>
       <form className='form'>
         <h1>Add a Recipe</h1>
         Protein: 

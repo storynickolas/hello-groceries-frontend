@@ -3,6 +3,18 @@ import React, { useEffect, useState } from 'react';
 import Form from './Components/Form';
 import Edit from './Components/Edit';
 
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Unstable_Grid2';
+import { styled } from '@mui/material/styles';
+
+
 function App() {
   const [options, setOptions] = useState([])
   const [special, setSpecial] = useState([])
@@ -10,6 +22,7 @@ function App() {
   const [test, setTest] = useState(1)
   const [vis, setVis] = useState(false)
   const [curr, setCurr] = useState()
+  const [formVis, setFormVis] = useState(false)
 
   const [dog, setDog] = useState('')
 
@@ -26,6 +39,7 @@ function App() {
   }, [page])
 
   const handleClick = (item) => {
+    setVis(false)
     setPage(item.id)
   }
 
@@ -49,6 +63,15 @@ function App() {
     console.log(special)
     setCurr(special)
     setVis(true)
+  }
+
+  function handleSave() {
+    console.log('Saving')
+    setVis(false)
+  }
+
+  function addItem() {
+    setFormVis(true)
   }
 
 
@@ -80,42 +103,78 @@ function App() {
       .then(() => console.log("deleted!"));
   }
 
+  const style = {
+    width: '100%',
+    maxWidth: 360,
+    bgcolor: 'white',
+  };
+
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }));
+
   return (
     <div className="App">
       <header className="App-header">
         <h1>Grocery List</h1>
-        <Form/>
         <h3>
-          <button onClick={() => shortest()}>Shortest</button>
-          <button onClick={() => longest()}>Longest</button>
-          <button onClick={() => chicken()}>Chicken</button>
-          <button onClick={() => veggie()}>Veggie</button>
+          <ButtonGroup size="large" aria-label="large button group">
+            <Button onClick={() => shortest()}>Shortest</Button>
+            <Button onClick={() => longest()}>Longest</Button>
+            <Button onClick={() => chicken()}>Chicken</Button>
+            <Button onClick={() => veggie()}>Veggie</Button>
+            <Button onClick={() => addItem()}>Add a Item</Button>
+          </ButtonGroup>
         </h3>
-        <div>
-          {vis ? <Edit selected={curr} /> : ''}
-          {page && special.ingredients ? 
-          <div>
-          <h2>{special.name}</h2> 
-          <button onClick={() => handleDelete()}>Delete</button>
-          <button onClick={() => handleEdit()}>Edit</button>
-          </div>
-            : ''}
-         {page && special.ingredients ? special.ingredients.map((item) => 
-            <li key={item.id + item.name}>{item.name}</li>
-          ) : ''}
-        </div>
-        {
-        options.map((item) => 
-        <div key={item.name}>
-          <button onClick={() => handleClick(item)}><h4 >{item.name}</h4></button>
-          {/* <h2 >{item.cook_time}</h2>
-          <a href={item.instructions}>{item.name}</a> */}
-        </div>
-        )}
-        <div>
-    
-        </div>
-        
+        {formVis ? <Form/> : ''}
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={2}>
+            <Grid xs={4}>
+              <Item>
+                <List sx={style} component="nav" aria-label="mailbox folders">
+                  {
+                  options.map((item) => 
+                  <div >
+                    <ListItem button key={item.name} onClick={() => handleClick(item)}>
+                      <ListItemText primary={item.name} />
+                      </ListItem>
+                    <Divider/>
+                  </div>
+                  )}
+                </List>
+              </Item>
+            </Grid>
+            <Grid xs={8}>
+              <Item>
+                  {page && special.ingredients ? 
+                  <div>
+                  <h2>{special.name}</h2> 
+                  <button onClick={() => handleDelete()}>Delete</button>
+                  <button onClick={() => handleEdit()}>Edit</button>
+                  {vis ? <button onClick={() => handleSave()}>Save</button> : ''}
+                  {vis ? <Edit selected={curr} /> : ''}
+                  <h3>Ingredients:</h3>
+                  </div>
+                    : ''}
+                {page && special.ingredients ? 
+                <List sx={style} component="nav" aria-label="mailbox folders">
+                  {special.ingredients.map((item) => 
+                    <div key={item.id + item.name}>
+                      <ListItem button onClick={() => handleClick(item)}>
+                        <ListItemText primary={item.name} />
+                      </ListItem>
+                      <Divider/>
+                    </div>)}
+                    </List>
+                  : ''}
+              </Item>
+            </Grid>
+          </Grid>
+        </Box>
       </header>
     </div>
   );

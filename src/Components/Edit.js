@@ -31,7 +31,14 @@ function Edit(selected) {
 
   return (
     <div className='form-page'>
-      <h1>{selected.selected.name}</h1>
+      Name: <input defaultValue={selected.selected.name} />
+      <br/>
+      Protein: <input defaultValue={selected.selected.protein} />
+      <br/>
+      Cook time: <input defaultValue={selected.selected.cook_time} />
+      <br/>
+      Instructions: <input defaultValue={selected.selected.instructions} />
+
       {/* <br></br>
       <br></br>
       <form className='form'>
