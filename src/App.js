@@ -23,6 +23,7 @@ function App() {
   const [vis, setVis] = useState(false)
   const [curr, setCurr] = useState()
   const [formVis, setFormVis] = useState(false)
+  const [add, setAdd] = useState(true)
 
   const [dog, setDog] = useState('')
 
@@ -40,6 +41,7 @@ function App() {
 
   const handleClick = (item) => {
     setVis(false)
+    setAdd(true)
     setPage(item.id)
   }
 
@@ -71,6 +73,7 @@ function App() {
   }
 
   function addItem() {
+    setAdd(false)
     setFormVis(true)
   }
 
@@ -119,28 +122,26 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
         <h1>Grocery List</h1>
-        <h3>
-          <ButtonGroup size="large" aria-label="large button group">
+          <ButtonGroup size="large" aria-label="large button group" style={{backgroundColor: "white"}}>
             <Button onClick={() => shortest()}>Shortest</Button>
             <Button onClick={() => longest()}>Longest</Button>
             <Button onClick={() => chicken()}>Chicken</Button>
             <Button onClick={() => veggie()}>Veggie</Button>
             <Button onClick={() => addItem()}>Add a Item</Button>
           </ButtonGroup>
-        </h3>
-        {formVis ? <Form/> : ''}
+          <br/>
+        {/* {formVis ? <Form/> : ''} */}
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
             <Grid xs={4}>
               <Item>
-                <List sx={style} component="nav" aria-label="mailbox folders">
+                <List sx={style} component="nav" aria-label="mailbox folders" style={{maxHeight: 600, overflow: 'auto'}}>
                   {
                   options.map((item) => 
                   <div >
                     <ListItem button key={item.name} onClick={() => handleClick(item)}>
-                      <ListItemText primary={item.name} />
+                      <ListItemText primary={item.name + ' (' + item.cook_time + ' Min)' }/>
                       </ListItem>
                     <Divider/>
                   </div>
@@ -150,18 +151,24 @@ function App() {
             </Grid>
             <Grid xs={8}>
               <Item>
-                  {page && special.ingredients ? 
+                  {page && special.ingredients && add ? 
                   <div>
                   <h2>{special.name}</h2> 
-                  <button onClick={() => handleDelete()}>Delete</button>
-                  <button onClick={() => handleEdit()}>Edit</button>
-                  {vis ? <button onClick={() => handleSave()}>Save</button> : ''}
+                  <img src={special.image} alt={special.name} className="photo"/>
+                  <br />
+                  <ButtonGroup size="large" aria-label="large button group">
+                    <Button onClick={() => handleDelete()}>Delete</Button>
+                    <Button onClick={() => handleEdit()}>Edit</Button>
+                    {vis ? <Button onClick={() => handleSave()}>Save</Button> : ''}
+                  </ButtonGroup>
+                  <br/>
+                  <br/>
                   {vis ? <Edit selected={curr} /> : ''}
                   <h3>Ingredients:</h3>
                   </div>
                     : ''}
-                {page && special.ingredients ? 
-                <List sx={style} component="nav" aria-label="mailbox folders">
+                {page && special.ingredients && add ? 
+                <List sx={style} component="nav" aria-label="mailbox folders"  style={{maxHeight: 400, overflow: 'auto'}}>
                   {special.ingredients.map((item) => 
                     <div key={item.id + item.name}>
                       <ListItem button onClick={() => handleClick(item)}>
@@ -170,12 +177,14 @@ function App() {
                       <Divider/>
                     </div>)}
                     </List>
-                  : ''}
+                  : '' }
+                  {!add ?
+                  <Form/> 
+                : '' }
               </Item>
             </Grid>
           </Grid>
         </Box>
-      </header>
     </div>
   );
 }
