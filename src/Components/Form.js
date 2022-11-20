@@ -1,7 +1,7 @@
 import '../App.css';
 import React, { useState } from 'react';
 
-function Form() {
+function Form({ addItem }) {
 
   const [protein, setProtein] = useState('')
   const [newName, setNewName] = useState('')
@@ -51,7 +51,7 @@ function Form() {
       body: JSON.stringify(itemData),
     })
       .then((r) => r.json())
-      .then((newItem) => console.log(newItem));
+      .then((newItem) => addItem(newItem));
   }
     
 

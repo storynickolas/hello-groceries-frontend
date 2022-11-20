@@ -19,10 +19,8 @@ function App() {
   const [options, setOptions] = useState([])
   const [special, setSpecial] = useState([])
   const [page, setPage] = useState(1)
-  const [test, setTest] = useState(1)
   const [vis, setVis] = useState(false)
   const [curr, setCurr] = useState()
-  const [formVis, setFormVis] = useState(false)
   const [add, setAdd] = useState(true)
 
   const [dog, setDog] = useState('')
@@ -37,7 +35,7 @@ function App() {
     fetch(`http://localhost:9292/recipes/${page}`)
       .then((r) => r.json())
       .then((data) => setSpecial(data))
-  }, [page])
+  }, [page, options])
 
   const handleClick = (item) => {
     setVis(false)
@@ -67,43 +65,24 @@ function App() {
     setVis(true)
   }
 
-  function handleSave() {
-    console.log('Saving')
+  function handleCancel(itemData) {
+    handleUpdateItem(itemData)
     setVis(false)
   }
 
   function addItem() {
     setAdd(false)
-    setFormVis(true)
   }
 
 
 
-  function handleChange() {
-    console.log(special)
-    const itemData = {
-      'name': 'test2',
-      'protein': 'testing',
-      'cook_time': 'tests',
-      'instructions': 'test'
-    };
-    fetch(`http://localhost:9292/recipes/${special.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(itemData),
-    })
-      .then((r) => r.json())
-      .then((updatedItem) => console.log(updatedItem));
-  }
 
   function handleDelete() {
     fetch(`http://localhost:9292/recipes/${special.id}`, {
       method: "DELETE",
     })
       .then((r) => r.json())
-      .then(() => console.log("deleted!"));
+      .then(() => handleDeleteItem(special.id));
   }
 
   const style = {
@@ -111,6 +90,18 @@ function App() {
     maxWidth: 360,
     bgcolor: 'white',
   };
+
+  function handleDeleteItem(deletedItem) {
+    const updatedItems = options.filter((item) => item.id !== deletedItem);
+    setOptions(updatedItems);
+
+    setPage(updatedItems[0].id)
+  }
+
+  function handleAddItem(newItem) {
+    setOptions([...options, newItem]);
+    setAdd(!add)
+  }
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -120,9 +111,20 @@ function App() {
     color: theme.palette.text.secondary,
   }));
 
+  function handleUpdateItem(updatedItem) {
+    const newOptions = options.map((item) => {
+      if (item.id === updatedItem.id) {
+        return updatedItem;
+      } else {
+        return item;
+      }
+    });
+    setOptions([...newOptions])
+  }
+
   return (
     <div className="App">
-        <h1>Grocery List</h1>
+      <h1>Grocery List</h1>
           <ButtonGroup size="large" aria-label="large button group" style={{backgroundColor: "white"}}>
             <Button onClick={() => shortest()}>Shortest</Button>
             <Button onClick={() => longest()}>Longest</Button>
@@ -131,9 +133,9 @@ function App() {
             <Button onClick={() => addItem()}>Add a Item</Button>
           </ButtonGroup>
           <br/>
-        {/* {formVis ? <Form/> : ''} */}
+          <br/>
         <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
             <Grid xs={4}>
               <Item>
                 <List sx={style} component="nav" aria-label="mailbox folders" style={{maxHeight: 600, overflow: 'auto'}}>
@@ -149,7 +151,7 @@ function App() {
                 </List>
               </Item>
             </Grid>
-            <Grid xs={8}>
+            <Grid xs={4}>
               <Item>
                   {page && special.ingredients && add ? 
                   <div>
@@ -158,29 +160,41 @@ function App() {
                   <br />
                   <ButtonGroup size="large" aria-label="large button group">
                     <Button onClick={() => handleDelete()}>Delete</Button>
-                    <Button onClick={() => handleEdit()}>Edit</Button>
-                    {vis ? <Button onClick={() => handleSave()}>Save</Button> : ''}
+                    {!vis ? <Button onClick={() => handleEdit()}>Edit</Button> : ''}
+                    {vis ? <Button onClick={() => handleCancel()}>Cancel</Button> : ''}
                   </ButtonGroup>
                   <br/>
                   <br/>
-                  {vis ? <Edit selected={curr} /> : ''}
-                  <h3>Ingredients:</h3>
+                  {!vis ? 
+                  <div>
+                    <h3>{'Protein: ' + special.protein}</h3> 
+                    <h3>{'Cook Time: ' + special.cook_time + ' Min'}</h3> 
+                    <h3>Instructions: <a href={special.instructions}>{special.name}</a></h3>
+                  </div> : '' }
+                  {vis ? <Edit selected={curr} handleSave={handleCancel}/> : ''}
                   </div>
                     : ''}
-                {page && special.ingredients && add ? 
-                <List sx={style} component="nav" aria-label="mailbox folders"  style={{maxHeight: 400, overflow: 'auto'}}>
-                  {special.ingredients.map((item) => 
-                    <div key={item.id + item.name}>
-                      <ListItem button onClick={() => handleClick(item)}>
-                        <ListItemText primary={item.name} />
-                      </ListItem>
-                      <Divider/>
-                    </div>)}
-                    </List>
-                  : '' }
                   {!add ?
-                  <Form/> 
+                  <Form addItem={handleAddItem} /> 
                 : '' }
+              </Item>
+            </Grid>
+            <Grid xs={4}>
+              <Item>
+                <List sx={style} component="nav" aria-label="mailbox folders" style={{maxHeight: 600, overflow: 'auto'}}>
+                <h3>Ingredients:</h3>
+                  {page && special.ingredients && add ? 
+                  <List sx={style} component="nav" aria-label="mailbox folders"  style={{maxHeight: 400, overflow: 'auto'}}>
+                    {special.ingredients.map((item) => 
+                      <div key={item.id + item.name}>
+                        <ListItem button onClick={() => handleClick(item)}>
+                          <ListItemText primary={item.name} />
+                        </ListItem>
+                        <Divider/>
+                      </div>)}
+                      </List>
+                    : '' }
+                  </List>
               </Item>
             </Grid>
           </Grid>

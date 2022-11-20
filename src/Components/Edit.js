@@ -1,64 +1,67 @@
 import '../App.css';
 import React, { useState } from 'react';
 
-function Edit(selected) {
-  console.log(selected.selected)
+function Edit({ selected, handleSave }) {
 
-  // const [protein, setProtein] = useState('')
-  // const [newName, setNewName] = useState('')
-  // const [newCook, setNewCook] = useState('')
-  // const [newWeb, setNewWeb] = useState('')
+  const [protein, setProtein] = useState(selected.protein)
+  const [newName, setNewName] = useState(selected.name)
+  const [newCook, setNewCook] = useState(selected.cook_time)
+  const [newWeb, setNewWeb] = useState(selected.instructions)
 
-  // function handleName(e) {
-  //   e.preventDefault();
-  //   let newCity = e.target.value
-  //   setNewName(newCity)
-  // }
+  function handleProtein(e) {
+    e.preventDefault();
+    let newCity = e.target.value
+    setProtein(newCity)
+  }
 
-  // function handleCook(e) {
-  //   e.preventDefault();
-  //   let newCity = e.target.value
-  //   setNewCook(newCity)
-  // }
+  function handleName(e) {
+    e.preventDefault();
+    let newCity = e.target.value
+    setNewName(newCity)
+  }
 
-  // function handleWeb(e) {
-  //   e.preventDefault();
-  //   let newCity = e.target.value
-  //   setNewWeb(newCity)
-  // }
+  function handleCook(e) {
+    e.preventDefault();
+    let newCity = e.target.value
+    setNewCook(newCity)
+  }
 
+  function handleWeb(e) {
+    e.preventDefault();
+    let newCity = e.target.value
+    setNewWeb(newCity)
+  }
 
+  function handleEdit() {
+    const itemData = {
+      'id': selected.id,
+      'name': newName,
+      'protein': protein,
+      'cook_time': newCook,
+      'instructions': newWeb
+    };
+    fetch(`http://localhost:9292/recipes/${selected.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(itemData),
+    })
+      .then((r) => r.json())
+      .then(() => handleSave(itemData));
+  }
 
   return (
     <div className='form-page'>
-      Name: <input defaultValue={selected.selected.name} />
+      Name: <input defaultValue={newName} onChange={handleName}/>
       <br/>
-      Protein: <input defaultValue={selected.selected.protein} />
+      Protein: <input defaultValue={protein} onChange={handleProtein}/>
       <br/>
-      Cook time: <input defaultValue={selected.selected.cook_time} />
+      Cook time: <input defaultValue={newCook} onChange={handleCook}/>
       <br/>
-      Instructions: <input defaultValue={selected.selected.instructions} />
-
-      {/* <br></br>
-      <br></br>
-      <form className='form'>
-        <h1>Add a Recipe</h1>
-        Protein: 
-        <select onChange={handleSelect} className="input">
-          <option value="veggie">Veggie</option>
-          <option value="chicken">Chicken</option>
-          <option value="turkey">Turkey</option>
-        </select>
-        <br/>
-        Name: <input onChange={handleName} className="input"></input>
-        <br/>
-        Cook Time: <input onChange={handleCook} className="input"></input>
-        <br/>
-        Recipe URL: <input onChange={handleWeb} className="input"></input>
-        <div className='submit'>
-          <button onClick={handlePost} className="button">Add Item</button>
-        </div>
-      </form> */}
+      Instructions: <input defaultValue={newWeb} onChange={handleWeb}/>
+      <br/>
+      <button onClick={handleEdit}>Save</button>
     </div>
   );
 }
