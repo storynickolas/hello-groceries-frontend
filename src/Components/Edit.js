@@ -33,8 +33,9 @@ function Edit({ selected, handleSave }) {
   }
 
   function handleEdit() {
+
+
     const itemData = {
-      'id': selected.id,
       'name': newName,
       'protein': protein,
       'cook_time': newCook,
@@ -48,7 +49,7 @@ function Edit({ selected, handleSave }) {
       body: JSON.stringify(itemData),
     })
       .then((r) => r.json())
-      .then(() => handleSave(itemData));
+      .then((itemData) => handleSave(itemData));
   }
 
   return (

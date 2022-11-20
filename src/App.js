@@ -13,6 +13,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';
+import RecipeList from './Components/RecipeList';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
   const [special, setSpecial] = useState([])
   const [vis, setVis] = useState(false)
   const [add, setAdd] = useState(true)
+  const [addIng, setAddIng] = useState(false)
 
   const [dog, setDog] = useState('')
 
@@ -61,7 +63,11 @@ function App() {
     setVis(true)
   }
 
-  function handleCancel(itemData) {
+  function handleCancel() {
+    setVis(false)
+  }
+
+  function handleSave(itemData) {
     handleUpdateItem(itemData)
     setVis(false)
   }
@@ -108,14 +114,22 @@ function App() {
   }));
 
   function handleUpdateItem(updatedItem) {
+    let cow = special
+    delete cow.name
+    delete cow.protein
+    delete cow.cook_time
+    delete cow.instructions
+    let beaver = {...cow, ...updatedItem}
+
     const newOptions = options.map((item) => {
-      if (item.id === updatedItem.id) {
-        return updatedItem;
+      if (item.id === beaver.id) {
+        return beaver;
       } else {
         return item;
       }
     });
     setOptions([...newOptions])
+    setSpecial(beaver)
   }
 
   return (
@@ -134,7 +148,8 @@ function App() {
           <Grid container spacing={3}>
             <Grid xs={4}>
               <Item>
-                <List sx={style} component="nav" aria-label="mailbox folders" style={{maxHeight: 600, overflow: 'auto'}}>
+                <RecipeList handleClick={handleClick} options={options}/>
+                {/* <List sx={style} component="nav" aria-label="mailbox folders" style={{maxHeight: 600, overflow: 'auto'}}>
                   {
                   options.map((item) => 
                   <div >
@@ -144,12 +159,12 @@ function App() {
                     <Divider/>
                   </div>
                   )}
-                </List>
+                </List> */}
               </Item>
             </Grid>
             <Grid xs={4}>
               <Item>
-                  {special.ingredients && add ? 
+                  {/* {special && add ? 
                   <div>
                   <h2>{special.name}</h2> 
                   <img src={special.image} alt={special.name} className="photo"/>
@@ -167,18 +182,19 @@ function App() {
                     <h3>{'Cook Time: ' + special.cook_time + ' Min'}</h3> 
                     <h3>Instructions: <a href={special.instructions}>{special.name}</a></h3>
                   </div> : '' }
-                  {vis ? <Edit selected={special} handleSave={handleCancel}/> : ''}
+                  {vis ? <Edit selected={special} handleSave={handleSave}/> : ''}
                   </div>
                     : ''}
                   {!add ?
                   <Form addItem={handleAddItem} /> 
-                : '' }
+                : '' } */}
               </Item>
             </Grid>
             <Grid xs={4}>
               <Item>
                 <List sx={style} component="nav" aria-label="mailbox folders" style={{maxHeight: 600, overflow: 'auto'}}>
                 <h3>Ingredients:</h3>
+                <button>Add Ingredient</button>
                   {special.ingredients && add ? 
                   <List sx={style} component="nav" aria-label="mailbox folders"  style={{maxHeight: 400, overflow: 'auto'}}>
                     {special.ingredients.map((item) => 
