@@ -15,6 +15,8 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';
 import RecipeList from './Components/RecipeList';
 
+import Selected from './Components/Selected';
+
 
 function App() {
   const [options, setOptions] = useState([])
@@ -68,8 +70,24 @@ function App() {
   }
 
   function handleSave(itemData) {
-    handleUpdateItem(itemData)
+    let cow = special
+    delete cow.name
+    delete cow.protein
+    delete cow.cook_time
+    delete cow.instructions
+    let beaver = {...cow, ...itemData}
+
+    const newOptions = options.map((item) => {
+      if (item.id === beaver.id) {
+        return beaver;
+      } else {
+        return item;
+      }
+    });
+    setOptions([...newOptions])
+    setSpecial(beaver)
     setVis(false)
+
   }
 
   function addItem() {
@@ -113,24 +131,6 @@ function App() {
     color: theme.palette.text.secondary,
   }));
 
-  function handleUpdateItem(updatedItem) {
-    let cow = special
-    delete cow.name
-    delete cow.protein
-    delete cow.cook_time
-    delete cow.instructions
-    let beaver = {...cow, ...updatedItem}
-
-    const newOptions = options.map((item) => {
-      if (item.id === beaver.id) {
-        return beaver;
-      } else {
-        return item;
-      }
-    });
-    setOptions([...newOptions])
-    setSpecial(beaver)
-  }
 
   return (
     <div className="App">
@@ -149,45 +149,20 @@ function App() {
             <Grid xs={4}>
               <Item>
                 <RecipeList handleClick={handleClick} options={options}/>
-                {/* <List sx={style} component="nav" aria-label="mailbox folders" style={{maxHeight: 600, overflow: 'auto'}}>
-                  {
-                  options.map((item) => 
-                  <div >
-                    <ListItem button key={item.name} onClick={() => handleClick(item)}>
-                      <ListItemText primary={item.name + ' (' + item.cook_time + ' Min)' }/>
-                      </ListItem>
-                    <Divider/>
-                  </div>
-                  )}
-                </List> */}
               </Item>
             </Grid>
             <Grid xs={4}>
               <Item>
-                  {/* {special && add ? 
-                  <div>
-                  <h2>{special.name}</h2> 
-                  <img src={special.image} alt={special.name} className="photo"/>
-                  <br />
-                  <ButtonGroup size="large" aria-label="large button group">
-                    <Button onClick={() => handleDelete()}>Delete</Button>
-                    {!vis ? <Button onClick={() => handleEdit()}>Edit</Button> : ''}
-                    {vis ? <Button onClick={() => handleCancel()}>Cancel</Button> : ''}
-                  </ButtonGroup>
-                  <br/>
-                  <br/>
-                  {!vis ? 
-                  <div>
-                    <h3>{'Protein: ' + special.protein}</h3> 
-                    <h3>{'Cook Time: ' + special.cook_time + ' Min'}</h3> 
-                    <h3>Instructions: <a href={special.instructions}>{special.name}</a></h3>
-                  </div> : '' }
-                  {vis ? <Edit selected={special} handleSave={handleSave}/> : ''}
-                  </div>
-                    : ''}
-                  {!add ?
-                  <Form addItem={handleAddItem} /> 
-                : '' } */}
+                {special && add ? 
+                  <Selected 
+                  special={special}
+                  handleDelete={handleDelete}
+                  handleEdit={handleEdit} 
+                  handleCancel={handleCancel}
+                  vis={vis}
+                  handleSave={handleSave}
+                  /> : ''}
+                {!add ? <Form addItem={handleAddItem} /> : '' }
               </Item>
             </Grid>
             <Grid xs={4}>
