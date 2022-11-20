@@ -18,9 +18,7 @@ import { styled } from '@mui/material/styles';
 function App() {
   const [options, setOptions] = useState([])
   const [special, setSpecial] = useState([])
-  const [page, setPage] = useState(1)
   const [vis, setVis] = useState(false)
-  const [curr, setCurr] = useState()
   const [add, setAdd] = useState(true)
 
   const [dog, setDog] = useState('')
@@ -28,19 +26,19 @@ function App() {
   useEffect(() => {
     fetch(`http://localhost:9292/recipes${dog}`)
       .then((r) => r.json())
-      .then((data) => setOptions(data))
+      .then((data) => handlingTest(data))
   }, [dog])
 
-  useEffect(() => {
-    fetch(`http://localhost:9292/recipes/${page}`)
-      .then((r) => r.json())
-      .then((data) => setSpecial(data))
-  }, [page, options])
+  const handlingTest = (data) => {
+    setOptions(data)
+    setSpecial(data[0])    
+  }
+
 
   const handleClick = (item) => {
     setVis(false)
     setAdd(true)
-    setPage(item.id)
+    setSpecial(item)
   }
 
   const shortest = () => {
@@ -60,8 +58,6 @@ function App() {
   }
 
   function handleEdit() {
-    console.log(special)
-    setCurr(special)
     setVis(true)
   }
 
@@ -95,7 +91,7 @@ function App() {
     const updatedItems = options.filter((item) => item.id !== deletedItem);
     setOptions(updatedItems);
 
-    setPage(updatedItems[0].id)
+    setSpecial(updatedItems[0])
   }
 
   function handleAddItem(newItem) {
@@ -153,7 +149,7 @@ function App() {
             </Grid>
             <Grid xs={4}>
               <Item>
-                  {page && special.ingredients && add ? 
+                  {special.ingredients && add ? 
                   <div>
                   <h2>{special.name}</h2> 
                   <img src={special.image} alt={special.name} className="photo"/>
@@ -171,7 +167,7 @@ function App() {
                     <h3>{'Cook Time: ' + special.cook_time + ' Min'}</h3> 
                     <h3>Instructions: <a href={special.instructions}>{special.name}</a></h3>
                   </div> : '' }
-                  {vis ? <Edit selected={curr} handleSave={handleCancel}/> : ''}
+                  {vis ? <Edit selected={special} handleSave={handleCancel}/> : ''}
                   </div>
                     : ''}
                   {!add ?
@@ -183,7 +179,7 @@ function App() {
               <Item>
                 <List sx={style} component="nav" aria-label="mailbox folders" style={{maxHeight: 600, overflow: 'auto'}}>
                 <h3>Ingredients:</h3>
-                  {page && special.ingredients && add ? 
+                  {special.ingredients && add ? 
                   <List sx={style} component="nav" aria-label="mailbox folders"  style={{maxHeight: 400, overflow: 'auto'}}>
                     {special.ingredients.map((item) => 
                       <div key={item.id + item.name}>
