@@ -119,8 +119,8 @@ function App() {
     let selectedCopy = {...special}
     delete selectedCopy.ingredients
     let IngrCopy = special.ingredients
-    let newIngr = {id: special.ingredients.length + 1, name: newItem, recipe_id: special.ingredients[0].recipe_id}
-    IngrCopy.push(newIngr)
+
+    IngrCopy.push(newItem)
     let cow = {ingredients: IngrCopy}
     let newList = {...special, ...cow}
     setSpecial(newList)
@@ -166,7 +166,7 @@ function App() {
                   handleSave={handleSave}
                   /> : ''}
                 {!add ? <Form addItem={handleAddItem} /> : '' }
-                {addIng ? <IngredientAdd handleAddIngredient={handleAddIngredient}/> : ''}
+                {addIng ? <IngredientAdd special={special} handleAddIngredient={handleAddIngredient}/> : ''}
               </Item>
             </Grid>
             <Grid xs={4}>
