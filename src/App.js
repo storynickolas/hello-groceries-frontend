@@ -12,6 +12,7 @@ import RecipeList from './Components/RecipeList';
 
 import Selected from './Components/Selected';
 import Ingredients from './Components/Ingredients';
+import IngredientAdd from './Components/IngredientAdd';
 
 
 function App() {
@@ -110,6 +111,21 @@ function App() {
     setAdd(!add)
   }
 
+  function addIngredient() {
+    setAddIng(true)
+  }
+
+  function handleAddIngredient(newItem) {
+    let selectedCopy = {...special}
+    delete selectedCopy.ingredients
+    let IngrCopy = special.ingredients
+    let newIngr = {id: special.ingredients.length + 1, name: newItem, recipe_id: special.ingredients[0].recipe_id}
+    IngrCopy.push(newIngr)
+    let cow = {ingredients: IngrCopy}
+    let newList = {...special, ...cow}
+    setSpecial(newList)
+  }
+
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -140,7 +156,7 @@ function App() {
             </Grid>
             <Grid xs={4}>
               <Item>
-                {special && add ? 
+                {special && add && !addIng ? 
                   <Selected 
                   special={special}
                   handleDelete={handleDelete}
@@ -150,11 +166,12 @@ function App() {
                   handleSave={handleSave}
                   /> : ''}
                 {!add ? <Form addItem={handleAddItem} /> : '' }
+                {addIng ? <IngredientAdd handleAddIngredient={handleAddIngredient}/> : ''}
               </Item>
             </Grid>
             <Grid xs={4}>
               <Item>
-                <Ingredients special={special} add={add} handleClick={handleClick} />
+                <Ingredients special={special} add={add} handleClick={handleClick} addIngredient={addIngredient}/>
               </Item>
             </Grid>
           </Grid>
