@@ -1,14 +1,9 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
 import Form from './Components/Form';
-import Edit from './Components/Edit';
 
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -16,6 +11,7 @@ import { styled } from '@mui/material/styles';
 import RecipeList from './Components/RecipeList';
 
 import Selected from './Components/Selected';
+import Ingredients from './Components/Ingredients';
 
 
 function App() {
@@ -94,9 +90,6 @@ function App() {
     setAdd(false)
   }
 
-
-
-
   function handleDelete() {
     fetch(`http://localhost:9292/recipes/${special.id}`, {
       method: "DELETE",
@@ -104,12 +97,6 @@ function App() {
       .then((r) => r.json())
       .then(() => handleDeleteItem(special.id));
   }
-
-  const style = {
-    width: '100%',
-    maxWidth: 360,
-    bgcolor: 'white',
-  };
 
   function handleDeleteItem(deletedItem) {
     const updatedItems = options.filter((item) => item.id !== deletedItem);
@@ -167,21 +154,7 @@ function App() {
             </Grid>
             <Grid xs={4}>
               <Item>
-                <List sx={style} component="nav" aria-label="mailbox folders" style={{maxHeight: 600, overflow: 'auto'}}>
-                <h3>Ingredients:</h3>
-                <button>Add Ingredient</button>
-                  {special.ingredients && add ? 
-                  <List sx={style} component="nav" aria-label="mailbox folders"  style={{maxHeight: 400, overflow: 'auto'}}>
-                    {special.ingredients.map((item) => 
-                      <div key={item.id + item.name}>
-                        <ListItem button onClick={() => handleClick(item)}>
-                          <ListItemText primary={item.name} />
-                        </ListItem>
-                        <Divider/>
-                      </div>)}
-                      </List>
-                    : '' }
-                  </List>
+                <Ingredients special={special} add={add} handleClick={handleClick} />
               </Item>
             </Grid>
           </Grid>
