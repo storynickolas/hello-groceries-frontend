@@ -137,7 +137,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Grocery List</h1>
+      <h1>Hello Fresh Grocery List</h1>
           <ButtonGroup size="large" aria-label="large button group" style={{backgroundColor: "white"}}>
             <Button onClick={() => shortest()}>Shortest</Button>
             <Button onClick={() => longest()}>Longest</Button>

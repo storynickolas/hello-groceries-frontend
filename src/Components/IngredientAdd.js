@@ -1,6 +1,9 @@
 import '../App.css';
 import React, { useState } from 'react';
 
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+
 function IngredientAdd({ special, handleAddIngredient }) {
 
   const [name, setName] = useState('')
@@ -35,7 +38,9 @@ function IngredientAdd({ special, handleAddIngredient }) {
       Name: <input onChange={handleName}/>
       <br/>
       <br/>
-      <button onClick={handleAddition}>Add</button>
+      <ButtonGroup size="large" aria-label="large button group" style={{backgroundColor: "white"}}>
+        <Button onClick={handleAddition}>Add</Button>
+      </ButtonGroup>
     </div>
   );
 }

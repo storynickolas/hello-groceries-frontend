@@ -1,5 +1,7 @@
 import '../App.css';
 import React, { useState } from 'react';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 function Edit({ selected, handleSave }) {
 
@@ -62,7 +64,10 @@ function Edit({ selected, handleSave }) {
       <br/>
       Instructions: <input defaultValue={newWeb} onChange={handleWeb}/>
       <br/>
-      <button onClick={handleEdit}>Save</button>
+      <br/>
+      <ButtonGroup size="large" aria-label="large button group" style={{backgroundColor: "white"}}>
+        <Button onClick={handleEdit}>Save</Button>
+      </ButtonGroup>
     </div>
   );
 }
