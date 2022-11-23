@@ -4,9 +4,10 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
-function IngredientAdd({ special, handleAddIngredient }) {
+function IngredientAdd({ special, handleAddIngredient, handleCancelAdd }) {
 
   const [name, setName] = useState('')
+  const [newId, setNewId] = useState(1)
 
   function handleName(e) {
     e.preventDefault();
@@ -15,9 +16,8 @@ function IngredientAdd({ special, handleAddIngredient }) {
   }
 
   function handleAddition(e) {
-    console.log('test')
     e.preventDefault();
-    let newIngr = {id: special.ingredients.length + 1, name: name, recipe_id: special.ingredients[0].recipe_id}
+    let newIngr = {id: newId, name: name, recipe_id: special.id}
     fetch("http://localhost:9292/ingredients", {
       method: "POST",
       headers: {
@@ -40,6 +40,7 @@ function IngredientAdd({ special, handleAddIngredient }) {
       <br/>
       <ButtonGroup size="large" aria-label="large button group" style={{backgroundColor: "white"}}>
         <Button onClick={handleAddition}>Add</Button>
+        <Button onClick={handleCancelAdd}>Cancel</Button>
       </ButtonGroup>
     </div>
   );

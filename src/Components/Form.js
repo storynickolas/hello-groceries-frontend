@@ -40,7 +40,7 @@ function Form({ addItem }) {
       'name': newName,
       'protein': protein,
       'cook_time': newCook,
-      'instructions': newWeb
+      'instructions': newWeb,
     };
     fetch("http://localhost:9292/recipes", {
       method: "POST",

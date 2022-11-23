@@ -2,8 +2,6 @@ import './App.css';
 import React, { useEffect, useState } from 'react';
 import Form from './Components/Form';
 
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -14,6 +12,8 @@ import Selected from './Components/Selected';
 import Ingredients from './Components/Ingredients';
 import IngredientAdd from './Components/IngredientAdd';
 
+import Navbar from './Components/Navbar';
+
 
 function App() {
   const [options, setOptions] = useState([])
@@ -22,51 +22,43 @@ function App() {
   const [add, setAdd] = useState(true)
   const [addIng, setAddIng] = useState(false)
 
-  const [dog, setDog] = useState('')
+  const [page, setPage] = useState('')
 
+  // Request based on selection from navbar - default to first recipe in list
   useEffect(() => {
-    fetch(`http://localhost:9292/recipes${dog}`)
+    fetch(`http://localhost:9292/recipes${page}`)
       .then((r) => r.json())
       .then((data) => handlingTest(data))
-  }, [dog])
+  }, [page])
 
   const handlingTest = (data) => {
     setOptions(data)
     setSpecial(data[0])    
   }
 
+  const handlePage = (newPage) => {
+    setPage(newPage)
+  }
 
+  // select recipe to appear in center
   const handleClick = (item) => {
     setVis(false)
     setAdd(true)
     setSpecial(item)
   }
 
-  const shortest = () => {
-    setDog('/quick')
-  }
-
-  const longest = () => {
-    setDog('/by_time')
-  }
-
-  const chicken = () => {
-    setDog('/chicken')
-  }
-
-  const veggie = () => {
-    setDog('/veggie')
-  }
-
+  // Show editable recipe info
   function handleEdit() {
     setVis(true)
   }
 
+  // Close edit box without saving
   function handleCancel() {
     setVis(false)
   }
 
-  function handleSave(itemData) {
+  // Save edits to recipe
+  const handleSave =(itemData) => {
     let cow = special
     delete cow.name
     delete cow.protein
@@ -87,10 +79,18 @@ function App() {
 
   }
 
+  // show form to add recipe 
   function addItem() {
     setAdd(false)
   }
 
+  // Add Item to recipe list
+  function handleAddItem(newItem) {
+    setOptions([...options, newItem]);
+    setAdd(!add)
+  }
+
+  // Remove recipe from list
   function handleDelete() {
     fetch(`http://localhost:9292/recipes/${special.id}`, {
       method: "DELETE",
@@ -106,24 +106,28 @@ function App() {
     setSpecial(updatedItems[0])
   }
 
-  function handleAddItem(newItem) {
-    setOptions([...options, newItem]);
-    setAdd(!add)
-  }
-
+  // Show add ingredient form
   function addIngredient() {
     setAddIng(true)
   }
 
-  function handleAddIngredient(newItem) {
-    let selectedCopy = {...special}
-    delete selectedCopy.ingredients
-    let IngrCopy = special.ingredients
+  // hide add ingredient form without adding
+  function handleCancelAdd() {
+    setAddIng(false)
+  }
 
-    IngrCopy.push(newItem)
-    let cow = {ingredients: IngrCopy}
-    let newList = {...special, ...cow}
-    setSpecial(newList)
+  // add new ingredient
+  function handleAddIngredient(newItem) {
+    if(newItem.name !== '') {
+      let selectedCopy = {...special}
+      delete selectedCopy.ingredients
+      let IngrCopy = special.ingredients
+      IngrCopy.push(newItem)
+      let cow = {ingredients: IngrCopy}
+      let newList = {...special, ...cow}
+      setSpecial(newList)
+    }
+    setAddIng(false)
   }
 
   const Item = styled(Paper)(({ theme }) => ({
@@ -138,15 +142,9 @@ function App() {
   return (
     <div className="App">
       <h1>Hello Fresh Grocery List</h1>
-          <ButtonGroup size="large" aria-label="large button group" style={{backgroundColor: "white"}}>
-            <Button onClick={() => shortest()}>Shortest</Button>
-            <Button onClick={() => longest()}>Longest</Button>
-            <Button onClick={() => chicken()}>Chicken</Button>
-            <Button onClick={() => veggie()}>Veggie</Button>
-            <Button onClick={() => addItem()}>Add a Item</Button>
-          </ButtonGroup>
-          <br/>
-          <br/>
+        <Navbar handlePage={handlePage} addItem={addItem} />
+        <br/>
+        <br/>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={3}>
             <Grid xs={4}>
@@ -166,7 +164,12 @@ function App() {
                   handleSave={handleSave}
                   /> : ''}
                 {!add ? <Form addItem={handleAddItem} /> : '' }
-                {addIng ? <IngredientAdd special={special} handleAddIngredient={handleAddIngredient}/> : ''}
+                {addIng ? 
+                  <IngredientAdd 
+                    special={special} 
+                    handleAddIngredient={handleAddIngredient}
+                    handleCancelAdd={handleCancelAdd}
+                  /> : ''}
               </Item>
             </Grid>
             <Grid xs={4}>
