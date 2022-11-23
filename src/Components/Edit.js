@@ -2,6 +2,7 @@ import '../App.css';
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import { Link } from 'react-router-dom';
 
 function Edit({ selected, handleSave }) {
 
@@ -66,7 +67,8 @@ function Edit({ selected, handleSave }) {
       <br/>
       <br/>
       <ButtonGroup size="large" aria-label="large button group" style={{backgroundColor: "white"}}>
-        <Button onClick={handleEdit}>Save</Button>
+        <Button><Link to={"/recipes/" + selected.id}>Cancel</Link></Button>
+        <Button onClick={handleEdit}><Link to={"/recipes/" + selected.id}>Save</Link></Button>
       </ButtonGroup>
     </div>
   );

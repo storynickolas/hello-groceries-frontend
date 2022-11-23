@@ -2,7 +2,6 @@ import './App.css';
 import React, { useEffect, useState } from 'react';
 import Form from './Components/Form';
 
-import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';
@@ -11,16 +10,14 @@ import RecipeList from './Components/RecipeList';
 import Selected from './Components/Selected';
 import Ingredients from './Components/Ingredients';
 import IngredientAdd from './Components/IngredientAdd';
+import Edit from './Components/Edit';
 
-import Navbar from './Components/Navbar';
+import { Route, BrowserRouter, Switch } from "react-router-dom";
 
 
 function App() {
   const [options, setOptions] = useState([])
   const [special, setSpecial] = useState([])
-  const [vis, setVis] = useState(false)
-  const [add, setAdd] = useState(true)
-  const [addIng, setAddIng] = useState(false)
 
   const [page, setPage] = useState('')
 
@@ -32,6 +29,7 @@ function App() {
   }, [page])
 
   const handlingTest = (data) => {
+    console.log(data[0])
     setOptions(data)
     setSpecial(data[0])    
   }
@@ -42,19 +40,7 @@ function App() {
 
   // select recipe to appear in center
   const handleClick = (item) => {
-    setVis(false)
-    setAdd(true)
     setSpecial(item)
-  }
-
-  // Show editable recipe info
-  function handleEdit() {
-    setVis(true)
-  }
-
-  // Close edit box without saving
-  function handleCancel() {
-    setVis(false)
   }
 
   // Save edits to recipe
@@ -75,19 +61,11 @@ function App() {
     });
     setOptions([...newOptions])
     setSpecial(beaver)
-    setVis(false)
-
-  }
-
-  // show form to add recipe 
-  function addItem() {
-    setAdd(false)
   }
 
   // Add Item to recipe list
   function handleAddItem(newItem) {
     setOptions([...options, newItem]);
-    setAdd(!add)
   }
 
   // Remove recipe from list
@@ -106,16 +84,6 @@ function App() {
     setSpecial(updatedItems[0])
   }
 
-  // Show add ingredient form
-  function addIngredient() {
-    setAddIng(true)
-  }
-
-  // hide add ingredient form without adding
-  function handleCancelAdd() {
-    setAddIng(false)
-  }
-
   // add new ingredient
   function handleAddIngredient(newItem) {
     if(newItem.name !== '') {
@@ -127,7 +95,6 @@ function App() {
       let newList = {...special, ...cow}
       setSpecial(newList)
     }
-    setAddIng(false)
   }
 
   const Item = styled(Paper)(({ theme }) => ({
@@ -142,9 +109,84 @@ function App() {
   return (
     <div className="App">
       <h1>Hello Fresh Grocery List</h1>
-        <Navbar handlePage={handlePage} addItem={addItem} />
-        <br/>
-        <br/>
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/">
+              {/* <Home /> */}
+            </Route>
+            <Route exact path="/recipes">
+              <RecipeList
+                key='recipes'
+                title='Recipe List'
+                handleClick={handleClick} 
+                options={options}
+              />
+            </Route>
+            <Route exact path="/recipes/new">
+              <Form 
+                key='new'
+                title='Add a Recipe'
+                addItem={handleAddItem} /> 
+            </Route>
+              <Route exact path='/recipes/:id'>
+                <Grid container spacing={3}>
+                <Grid xs={4}>
+                    <Item>
+                    <RecipeList
+                key='recipes'
+                title='Recipe List'
+                handleClick={handleClick} 
+                options={options}
+                handlePage={handlePage}
+              />
+                      </Item>
+                      </Grid>
+                   <Grid xs={4}>
+                    <Item>
+                      <Selected 
+                    special={special}
+                    handleDelete={handleDelete}
+                    handleSave={handleSave}
+                  />
+                    </Item>
+                    
+                   </Grid>
+                   <Grid xs={4}>
+                    <Item>
+                      <Ingredients 
+                    special={special} 
+                    // add={add} 
+                    handleClick={handleClick} />
+                    </Item>
+                  
+                </Grid>
+                </Grid>
+              </Route>
+                <Route exact path={'/recipes/:id/edit'}>
+                  <Edit selected={special} handleSave={handleSave}/>
+                </Route>
+    
+                <Route exact path={'/recipes/:id/add'}>
+                  <Item>
+                      <Ingredients 
+                    special={special} 
+                    handleClick={handleClick} />
+                    </Item>
+                  <IngredientAdd 
+                    special={special} 
+                    handleAddIngredient={handleAddIngredient}
+                  />
+                </Route>
+            <Route exact path="/addItem"><Form/></Route>
+          </Switch>
+        </BrowserRouter>
+
+
+
+
+{/* 
+
+
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={3}>
             <Grid xs={4}>
@@ -163,7 +205,6 @@ function App() {
                   vis={vis}
                   handleSave={handleSave}
                   /> : ''}
-                {!add ? <Form addItem={handleAddItem} /> : '' }
                 {addIng ? 
                   <IngredientAdd 
                     special={special} 
@@ -178,7 +219,7 @@ function App() {
               </Item>
             </Grid>
           </Grid>
-        </Box>
+        </Box> */}
     </div>
   );
 }

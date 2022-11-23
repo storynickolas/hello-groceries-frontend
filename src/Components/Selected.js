@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
 import Edit from './Edit';
+import { Link } from 'react-router-dom';
 
 function Selected({ special, handleDelete, handleEdit, handleCancel, vis, handleSave  }) {
 
@@ -17,7 +18,7 @@ function Selected({ special, handleDelete, handleEdit, handleCancel, vis, handle
       <br />
       <ButtonGroup size="large" aria-label="large button group">
         <Button onClick={() => handleDelete()}>Delete</Button>
-        {!vis ? <Button onClick={() => handleEdit()}>Edit</Button> : ''}
+        <Button><Link to={"/recipes/" + special.id + "/edit"}>Edit</Link></Button>
         {vis ? <Button onClick={() => handleCancel()}>Cancel</Button> : ''}
       </ButtonGroup>
       <br/>

@@ -6,7 +6,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 
-function RecipeList({ options, handleClick  }) {
+import { Link } from 'react-router-dom';
+import Navbar from './Navbar';
+
+function RecipeList({ options, handleClick, handlePage, addItem  }) {
 
 
   const style = {
@@ -18,12 +21,17 @@ function RecipeList({ options, handleClick  }) {
 
   return (
     <List sx={style} component="nav" aria-label="mailbox folders" style={{maxHeight: 600, overflow: 'auto'}}>
+      <Navbar handlePage={handlePage} addItem={addItem} />
+              <br/>
+              <br/>
       {
       options.map((item) => 
       <div key={item.name}>
         <ListItem button onClick={() => handleClick(item)}>
-          <ListItemText primary={item.name + ' (' + item.cook_time + ' Min)' }/>
-          </ListItem>
+          <ListItemText>
+            <Link to={`/recipes/${item.id}`}>{item.name + ' (' + item.cook_time + ' Min)' }</Link>
+          </ListItemText>
+        </ListItem>
         <Divider/>
       </div>
       )}
