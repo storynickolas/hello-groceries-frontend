@@ -67,8 +67,8 @@ function Edit({ selected, handleSave }) {
       <br/>
       <br/>
       <ButtonGroup size="large" aria-label="large button group" style={{backgroundColor: "white"}}>
-        <Button><Link to={"/recipes/" + selected.id}>Cancel</Link></Button>
-        <Button onClick={handleEdit}><Link to={"/recipes/" + selected.id}>Save</Link></Button>
+        <Button><Link to={`/recipes/${selected.id}`}>Cancel</Link></Button>
+        <Button onClick={handleEdit}><Link to={`/recipes/${selected.id}`}>Save</Link></Button>
       </ButtonGroup>
     </div>
   );

@@ -5,20 +5,19 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { Link } from 'react-router-dom';
 
-function IngredientAdd({ special, handleAddIngredient, handleCancelAdd }) {
+function IngredientAdd({ special, handleAddIngredient }) {
 
   const [name, setName] = useState('')
-  const [newId, setNewId] = useState(1)
 
   function handleName(e) {
     e.preventDefault();
-    let newCity = e.target.value
-    setName(newCity)
+    let newName = e.target.value
+    setName(newName)
   }
 
   function handleAddition(e) {
     e.preventDefault();
-    let newIngr = {id: newId, name: name, recipe_id: special.id}
+    let newIngr = {name: name, recipe_id: special.id}
     fetch("http://localhost:9292/ingredients", {
       method: "POST",
       headers: {
@@ -31,8 +30,6 @@ function IngredientAdd({ special, handleAddIngredient, handleCancelAdd }) {
       .then((newItem) => handleAddIngredient(newItem));
   }
 
-
-
   return (
     <div className='form-page'>
       <h3>Add an Ingredient</h3>
@@ -41,7 +38,7 @@ function IngredientAdd({ special, handleAddIngredient, handleCancelAdd }) {
       <br/>
       <ButtonGroup size="large" aria-label="large button group" style={{backgroundColor: "white"}}>
         <Button onClick={handleAddition}>Add</Button>
-        <Button><Link to={"/recipes/" + special.id}>Cancel</Link></Button>
+        <Button><Link to={`/recipes/${special.id}`}>Cancel</Link></Button>
       </ButtonGroup>
     </div>
   );

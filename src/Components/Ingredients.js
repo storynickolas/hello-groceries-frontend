@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { Link } from 'react-router-dom';
 
-function Ingredients({ special, add, handleClick, addIngredient }) {
+function Ingredients({ special }) {
 
   const style = {
     width: '100%',

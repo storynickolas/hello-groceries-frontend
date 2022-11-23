@@ -6,7 +6,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import { Link } from 'react-router-dom';
 
 
-function Navbar({ handlePage, addItem }) {
+function Navbar({ handlePage }) {
 
   const shortest = () => {
     handlePage('/quick')
@@ -31,7 +31,7 @@ function Navbar({ handlePage, addItem }) {
             <Button onClick={() => longest()}>Longest</Button>
             <Button onClick={() => chicken()}>Chicken</Button>
             <Button onClick={() => veggie()}>Veggie</Button>
-            <Button onClick={() => addItem()}><Link to="/recipes/new">Add a Item</Link></Button>
+            <Button><Link to="/recipes/new">Add a Item</Link></Button>
     </ButtonGroup>
 
   );

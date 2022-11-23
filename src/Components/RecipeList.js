@@ -9,7 +9,7 @@ import Divider from '@mui/material/Divider';
 import { Link } from 'react-router-dom';
 import Navbar from './Navbar';
 
-function RecipeList({ options, handleClick, handlePage, addItem  }) {
+function RecipeList({ options, handleClick, handlePage }) {
 
 
   const style = {
@@ -21,7 +21,7 @@ function RecipeList({ options, handleClick, handlePage, addItem  }) {
 
   return (
     <List sx={style} component="nav" aria-label="mailbox folders" style={{maxHeight: 600, overflow: 'auto'}}>
-      <Navbar handlePage={handlePage} addItem={addItem} />
+      <Navbar handlePage={handlePage}/>
               <br/>
               <br/>
       {
@@ -29,7 +29,7 @@ function RecipeList({ options, handleClick, handlePage, addItem  }) {
       <div key={item.name}>
         <ListItem button onClick={() => handleClick(item)}>
           <ListItemText>
-            <Link to={`/recipes/${item.id}`}>{item.name + ' (' + item.cook_time + ' Min)' }</Link>
+            <Link to={`/recipes/${item.id}`}>{`${item.name} (${item.cook_time} Min)`}</Link>
           </ListItemText>
         </ListItem>
         <Divider/>

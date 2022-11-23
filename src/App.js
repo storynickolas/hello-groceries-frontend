@@ -29,7 +29,6 @@ function App() {
   }, [page])
 
   const handlingTest = (data) => {
-    console.log(data[0])
     setOptions(data)
     setSpecial(data[0])    
   }
@@ -45,22 +44,22 @@ function App() {
 
   // Save edits to recipe
   const handleSave =(itemData) => {
-    let cow = special
-    delete cow.name
-    delete cow.protein
-    delete cow.cook_time
-    delete cow.instructions
-    let beaver = {...cow, ...itemData}
+    let newAdd = special
+    delete newAdd.name
+    delete newAdd.protein
+    delete newAdd.cook_time
+    delete newAdd.instructions
+    let newRec = {...newAdd, ...itemData}
 
     const newOptions = options.map((item) => {
-      if (item.id === beaver.id) {
-        return beaver;
+      if (item.id === newRec.id) {
+        return newRec;
       } else {
         return item;
       }
     });
     setOptions([...newOptions])
-    setSpecial(beaver)
+    setSpecial(newRec)
   }
 
   // Add Item to recipe list
@@ -80,7 +79,6 @@ function App() {
   function handleDeleteItem(deletedItem) {
     const updatedItems = options.filter((item) => item.id !== deletedItem);
     setOptions(updatedItems);
-
     setSpecial(updatedItems[0])
   }
 
@@ -130,96 +128,52 @@ function App() {
             </Route>
               <Route exact path='/recipes/:id'>
                 <Grid container spacing={3}>
-                <Grid xs={4}>
+                  <Grid xs={4}>
                     <Item>
-                    <RecipeList
-                key='recipes'
-                title='Recipe List'
-                handleClick={handleClick} 
-                options={options}
-                handlePage={handlePage}
-              />
-                      </Item>
-                      </Grid>
+                      <RecipeList
+                        key={special.name}
+                        title='Recipe List'
+                        handleClick={handleClick} 
+                        options={options}
+                        handlePage={handlePage}
+                      />
+                    </Item>
+                  </Grid>
                    <Grid xs={4}>
                     <Item>
                       <Selected 
-                    special={special}
-                    handleDelete={handleDelete}
-                    handleSave={handleSave}
-                  />
+                        special={special}
+                        handleDelete={handleDelete}
+                        handleSave={handleSave}
+                      />
                     </Item>
-                    
                    </Grid>
                    <Grid xs={4}>
                     <Item>
                       <Ingredients 
-                    special={special} 
-                    // add={add} 
-                    handleClick={handleClick} />
+                        special={special} 
+                        handleClick={handleClick} />
                     </Item>
-                  
-                </Grid>
+                  </Grid>
                 </Grid>
               </Route>
-                <Route exact path={'/recipes/:id/edit'}>
-                  <Edit selected={special} handleSave={handleSave}/>
-                </Route>
-    
-                <Route exact path={'/recipes/:id/add'}>
-                  <Item>
-                      <Ingredients 
-                    special={special} 
-                    handleClick={handleClick} />
-                    </Item>
-                  <IngredientAdd 
-                    special={special} 
-                    handleAddIngredient={handleAddIngredient}
-                  />
-                </Route>
-            <Route exact path="/addItem"><Form/></Route>
+              <Route exact path={'/recipes/:id/edit'}>
+                <Edit selected={special} handleSave={handleSave}/>
+              </Route>
+              <Route exact path={'/recipes/:id/add'}>
+                <Item>
+                    <Ingredients 
+                  special={special} 
+                  handleClick={handleClick} />
+                  </Item>
+                <IngredientAdd 
+                  special={special} 
+                  handleAddIngredient={handleAddIngredient}
+                />
+              </Route>
+              <Route exact path="/addItem"><Form/></Route>
           </Switch>
         </BrowserRouter>
-
-
-
-
-{/* 
-
-
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={3}>
-            <Grid xs={4}>
-              <Item>
-                <RecipeList handleClick={handleClick} options={options}/>
-              </Item>
-            </Grid>
-            <Grid xs={4}>
-              <Item>
-                {special && add && !addIng ? 
-                  <Selected 
-                  special={special}
-                  handleDelete={handleDelete}
-                  handleEdit={handleEdit} 
-                  handleCancel={handleCancel}
-                  vis={vis}
-                  handleSave={handleSave}
-                  /> : ''}
-                {addIng ? 
-                  <IngredientAdd 
-                    special={special} 
-                    handleAddIngredient={handleAddIngredient}
-                    handleCancelAdd={handleCancelAdd}
-                  /> : ''}
-              </Item>
-            </Grid>
-            <Grid xs={4}>
-              <Item>
-                <Ingredients special={special} add={add} handleClick={handleClick} addIngredient={addIngredient}/>
-              </Item>
-            </Grid>
-          </Grid>
-        </Box> */}
     </div>
   );
 }

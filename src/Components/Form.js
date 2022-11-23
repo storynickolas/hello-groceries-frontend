@@ -34,7 +34,6 @@ function Form({ addItem }) {
   }
 
   function handlePost(e) {
-    console.log('test')
     e.preventDefault();
     const itemData = {
       'name': newName,
@@ -53,8 +52,6 @@ function Form({ addItem }) {
       .then((r) => r.json())
       .then((newItem) => addItem(newItem));
   }
-    
-
 
   return (
     <div className='form-page'>

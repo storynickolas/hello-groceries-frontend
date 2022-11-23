@@ -1,15 +1,10 @@
 import '../App.css';
 import React from 'react';
-
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-
-import Edit from './Edit';
 import { Link } from 'react-router-dom';
 
-function Selected({ special, handleDelete, handleEdit, handleCancel, vis, handleSave  }) {
-
-
+function Selected({ special, handleDelete }) {
 
   return (
     <div>
@@ -18,18 +13,15 @@ function Selected({ special, handleDelete, handleEdit, handleCancel, vis, handle
       <br />
       <ButtonGroup size="large" aria-label="large button group">
         <Button onClick={() => handleDelete()}>Delete</Button>
-        <Button><Link to={"/recipes/" + special.id + "/edit"}>Edit</Link></Button>
-        {vis ? <Button onClick={() => handleCancel()}>Cancel</Button> : ''}
+        <Button><Link to={`/recipes/${special.id}/edit`}>Edit</Link></Button>
       </ButtonGroup>
       <br/>
       <br/>
-      {!vis ? 
       <div>
-        <h3>{'Protein: ' + special.protein}</h3> 
-        <h3>{'Cook Time: ' + special.cook_time + ' Min'}</h3> 
+        <h3>{`Protein: ${special.protein}`}</h3> 
+        <h3>{`Cook Time: ${special.cook_time} Min`}</h3> 
         <h3>Instructions: <a href={special.instructions}>{special.name}</a></h3>
-      </div> : '' }
-      {vis ? <Edit selected={special} handleSave={handleSave}/> : ''}
+      </div>
     </div>
   );
 }
