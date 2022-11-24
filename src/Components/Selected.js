@@ -1,20 +1,18 @@
 import '../App.css';
 import React from 'react';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import { Link } from 'react-router-dom';
 
 function Selected({ special, handleDelete }) {
 
   return (
-    <div>
+    <div className='cat'>
       <h2>{special.name}</h2> 
       <img src={special.image} alt={special.name} className="photo"/>
       <br />
-      <ButtonGroup size="large" aria-label="large button group">
-        <Button onClick={() => handleDelete()}>Delete</Button>
-        <Button><Link to={`/recipes/${special.id}/edit`}>Edit</Link></Button>
-      </ButtonGroup>
+      <div>
+        <button onClick={() => handleDelete()}>Delete</button>
+        <button><Link to={`/recipes/${special.id}/edit`}>Edit</Link></button>
+      </div>
       <br/>
       <br/>
       <div>

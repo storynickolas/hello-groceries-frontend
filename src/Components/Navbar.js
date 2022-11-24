@@ -1,10 +1,7 @@
 import '../App.css';
 import React from 'react';
 
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import { Link } from 'react-router-dom';
-
 
 function Navbar({ handlePage }) {
 
@@ -25,15 +22,14 @@ function Navbar({ handlePage }) {
   }
 
   return (
+    <div>
 
-    <ButtonGroup size="large" aria-label="large button group" style={{backgroundColor: "white"}}>
-            <Button onClick={() => shortest()}>Shortest</Button>
-            <Button onClick={() => longest()}>Longest</Button>
-            <Button onClick={() => chicken()}>Chicken</Button>
-            <Button onClick={() => veggie()}>Veggie</Button>
-            <Button><Link to="/recipes/new">Add a Item</Link></Button>
-    </ButtonGroup>
-
+            <button onClick={() => shortest()}>Shortest</button>
+            <button onClick={() => longest()}>Longest</button>
+            <button onClick={() => chicken()}>Chicken</button>
+            <button onClick={() => veggie()}>Veggie</button>
+            <button><Link to="/recipes/new">Add a Item</Link></button>
+            </div>
   );
 }
 

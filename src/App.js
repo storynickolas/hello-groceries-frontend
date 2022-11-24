@@ -2,15 +2,19 @@ import './App.css';
 import React, { useEffect, useState } from 'react';
 import Form from './Components/Form';
 
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Unstable_Grid2';
-import { styled } from '@mui/material/styles';
+import { ChakraProvider } from '@chakra-ui/react'
+import { Container } from '@chakra-ui/react'
+
 import RecipeList from './Components/RecipeList';
 
 import Selected from './Components/Selected';
 import Ingredients from './Components/Ingredients';
 import IngredientAdd from './Components/IngredientAdd';
 import Edit from './Components/Edit';
+import Navbar from './Components/Navbar';
+
+import { Flex, Spacer, Box } from '@chakra-ui/react'
+
 
 import { Route, BrowserRouter, Switch } from "react-router-dom";
 
@@ -95,19 +99,15 @@ function App() {
     }
   }
 
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));
-
 
   return (
+    <ChakraProvider>
     <div className="App">
       <h1>Hello Fresh Grocery List</h1>
         <BrowserRouter>
+          <Navbar handlePage={handlePage} />
+          <br/>
+          <br/>
           <Switch>
             <Route exact path="/">
               {/* <Home /> */}
@@ -126,55 +126,51 @@ function App() {
                 title='Add a Recipe'
                 addItem={handleAddItem} /> 
             </Route>
-              <Route exact path='/recipes/:id'>
-                <Grid container spacing={3}>
-                  <Grid xs={4}>
-                    <Item>
-                      <RecipeList
-                        key={special.name}
-                        title='Recipe List'
-                        handleClick={handleClick} 
-                        options={options}
-                        handlePage={handlePage}
-                      />
-                    </Item>
-                  </Grid>
-                   <Grid xs={4}>
-                    <Item>
-                      <Selected 
-                        special={special}
-                        handleDelete={handleDelete}
-                        handleSave={handleSave}
-                      />
-                    </Item>
-                   </Grid>
-                   <Grid xs={4}>
-                    <Item>
-                      <Ingredients 
-                        special={special} 
-                        handleClick={handleClick} />
-                    </Item>
-                  </Grid>
-                </Grid>
-              </Route>
-              <Route exact path={'/recipes/:id/edit'}>
-                <Edit selected={special} handleSave={handleSave}/>
-              </Route>
-              <Route exact path={'/recipes/:id/add'}>
-                <Item>
-                    <Ingredients 
-                  special={special} 
-                  handleClick={handleClick} />
-                  </Item>
-                <IngredientAdd 
-                  special={special} 
-                  handleAddIngredient={handleAddIngredient}
-                />
-              </Route>
-              <Route exact path="/addItem"><Form/></Route>
+            <Route exact path='/recipes/:id'>
+              <Flex>
+                <Box p='4' w='30%' bg='red.400'>
+                  <RecipeList
+                    key={special.name}
+                    title='Recipe List'
+                    handleClick={handleClick} 
+                    options={options}
+                    handlePage={handlePage}
+                  />
+                </Box>
+                <Box p='4' w='45%' bg='red.400'>
+                  <Selected 
+                    special={special}
+                    handleDelete={handleDelete}
+                    handleSave={handleSave}
+                  />
+                </Box>
+                <Box p='4' w='25%' bg='red.400'>
+                  <Ingredients 
+                    special={special} 
+                    handleClick={handleClick}
+                  />
+                </Box>
+              </Flex>
+            </Route>
+            <Route exact path={'/recipes/:id/edit'}>
+              <Edit selected={special} handleSave={handleSave}/>
+            </Route>
+            <Route exact path={'/recipes/:id/add'}>
+
+                  <Ingredients 
+                special={special} 
+                handleClick={handleClick} />
+
+              <IngredientAdd 
+                special={special} 
+                handleAddIngredient={handleAddIngredient}
+              />
+            </Route>
+            <Route exact path="/addItem"><Form/></Route>
           </Switch>
         </BrowserRouter>
-    </div>
+      </div>
+    </ChakraProvider>
   );
 }
 

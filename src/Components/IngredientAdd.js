@@ -1,8 +1,7 @@
 import '../App.css';
 import React, { useState } from 'react';
 
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
+
 import { Link } from 'react-router-dom';
 
 function IngredientAdd({ special, handleAddIngredient }) {
@@ -36,10 +35,9 @@ function IngredientAdd({ special, handleAddIngredient }) {
       Name: <input onChange={handleName}/>
       <br/>
       <br/>
-      <ButtonGroup size="large" aria-label="large button group" style={{backgroundColor: "white"}}>
-        <Button onClick={handleAddition}>Add</Button>
-        <Button><Link to={`/recipes/${special.id}`}>Cancel</Link></Button>
-      </ButtonGroup>
+
+        <button onClick={handleAddition}>Add</button>
+        <button><Link to={`/recipes/${special.id}`}>Cancel</Link></button>
     </div>
   );
 }

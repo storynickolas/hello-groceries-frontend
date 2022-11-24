@@ -9,8 +9,8 @@
 }
 
 h1 {
-  background-color: darkgray;
-  color: rgb(71, 144, 223);
+  background-color: #3e4444;
+  color: white;
 
 }
 
@@ -23,6 +23,11 @@ header {
 html,body {
   margin:0;
   padding:0;
-  background-color:  grey;
+  background-color:  #3e4444;
+}
+
+
+.cat {
+  background-color: #d5e1df
 }
 
