@@ -1,6 +1,6 @@
 # Mealkit Recipes
 
-![Sample Page]()
+![Sample Page](https://github.com/storynickolas/mealkit-recipes-frontend/blob/main/Sample%20Images/Meal%20Kit%20Sample.png)
 
 This app has a basic inventory of recipes borrowed from the meal kit delivery service Hello Fresh's website.  On page load a list of recipes can be seen on the lefthand side of the page.  Clicking on any of these recipe names from the list will bring up that particular recipe to the center of the screen for more details.  Additionally, the right hand portion of the page is dedicated to a list of ingredients found in that particular recipe.  At the top of the page below the title is a sequence of buttons that offer different ways to sort the recipe list.  Shortest sorts the recipes by shortest cook time and Longest does the opposite.  Chicken and Veggie options sort the recipes for that particular protein.  The last button is for adding an additional recipe.  Clicking this button takes you to a separate form that can be filled out with an additional recipe to be added to the list, the list is automatically updated on add.
 
