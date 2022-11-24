@@ -1,6 +1,6 @@
 import '../App.css';
 import React from 'react';
-import { Wrap, List, ListItem, Button, Text, Center, UnorderedList} from '@chakra-ui/react';
+import { Wrap, ListItem, Button, Text, Center, UnorderedList} from '@chakra-ui/react';
 
 
 import { Link } from 'react-router-dom';

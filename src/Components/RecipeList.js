@@ -4,9 +4,6 @@ import React from 'react';
 import {
   List,
   ListItem,
-  ListIcon,
-  OrderedList,
-  UnorderedList,
   Wrap,
   Center,
   Text
@@ -18,7 +15,7 @@ import { Button } from "@chakra-ui/react"
 import {Link} from 'react-router-dom';
 // import Navbar from './Navbar';
 
-function RecipeList({ options, handleClick, handlePage }) {
+function RecipeList({ options, handleClick }) {
 
 
  

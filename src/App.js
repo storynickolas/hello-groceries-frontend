@@ -2,9 +2,6 @@ import './App.css';
 import React, { useEffect, useState } from 'react';
 import Form from './Components/Form';
 
-import { ChakraProvider } from '@chakra-ui/react'
-import { Container } from '@chakra-ui/react'
-
 import RecipeList from './Components/RecipeList';
 
 import Selected from './Components/Selected';
@@ -14,10 +11,10 @@ import Edit from './Components/Edit';
 import Navbar from './Components/Navbar';
 import Home from './Components/Home';
 
-import { Flex, Center, Button, Box, Text, Stack, Image } from '@chakra-ui/react'
+import { ChakraProvider, Flex, Center, Box, Text, Stack } from '@chakra-ui/react'
 
 
-import { Route, BrowserRouter, Switch, Link } from "react-router-dom";
+import { Route, BrowserRouter, Switch } from "react-router-dom";
 
 
 function App() {
@@ -108,30 +105,25 @@ function App() {
               <Navbar handlePage={handlePage} />
           <Switch>
             <Route exact path="/">
-            <Box p='4' bg='#dbefdc '>
-              <Home />
-
-            </Box>
-            </Route>
-
-
-
-
-            <Route exact path="/recipes">
               <Box p='4' bg='#dbefdc '>
-              <Center width='100%' bg='#dbefdc'>
-            <Stack spacing={3} bg='white' padding='20px' borderRadius='10px' >
-            <Text fontSize='30px' padding='5px' fontWeight='bold'>Select a Recipe to Get Started</Text>
-            <br />
-                <RecipeList
-                  key='recipes'
-                  title='Recipe List'
-                  handleClick={handleClick} 
-                  options={options}
-                />     
-                </Stack>
-                </Center>
+                <Home />
               </Box>
+            </Route>
+            <Route exact path="/recipes">
+            <Box p='4' bg='#dbefdc '>
+              <Center width='100%' bg='#dbefdc'>
+                <Stack spacing={3} bg='white' padding='20px' borderRadius='10px' >
+                  <Text fontSize='30px' padding='5px' fontWeight='bold'>Select a Recipe to Get Started</Text>
+                  <br />
+                  <RecipeList
+                    key='recipes'
+                    title='Recipe List'
+                    handleClick={handleClick} 
+                    options={options}
+                  />     
+                </Stack>
+              </Center>
+            </Box>
             </Route>
             <Route exact path="/recipes/new">
               <Form 

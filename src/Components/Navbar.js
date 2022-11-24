@@ -2,7 +2,7 @@ import '../App.css';
 import React from 'react';
 
 import { Link } from 'react-router-dom';
-import { Button, Flex, Box, Wrap } from '@chakra-ui/react';
+import { Button, Wrap } from '@chakra-ui/react';
 
 function Navbar({ handlePage }) {
 

@@ -1,7 +1,7 @@
 // import '../App.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Center, Flex, Text, Image, Button, ListItem, List, Wrap } from '@chakra-ui/react';
+import { Center, Text, Image, Button, ListItem, List, Wrap } from '@chakra-ui/react';
 
 function Selected({ special, handleDelete }) {
 
@@ -24,8 +24,7 @@ function Selected({ special, handleDelete }) {
       <Link to={`/recipes/${special.id}/edit`}>Edit</Link></Button>
       </Center>
       <Center width='100%'>
-      <Image src={special.image} alt={special.name} className="photo"
-      width='80%'
+      <Image src={special.image} alt={special.name} width='80%'
       /></Center>
       <Center width='100%'>
       <List fontSize='20px'>
