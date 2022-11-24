@@ -1,33 +1,5 @@
-.App {
-  text-align: center;
-
-  height: 100%;
-}
-
-.photo {
-  max-width: 50%;
-}
-
-h1 {
-  background-color: #3e4444;
-  color: white;
-
-}
-
-header {
-  background-color: red;
-}
-
-
-
 html,body {
   margin:0;
   padding:0;
-  background-color:  #3e4444;
+  background-color: #dbefdc
 }
-
-
-.cat {
-  background-color: #d5e1df
-}
-

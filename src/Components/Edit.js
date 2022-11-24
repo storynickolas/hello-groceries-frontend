@@ -1,6 +1,7 @@
 import '../App.css';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Center, Stack, Input, Text, Box, Button } from '@chakra-ui/react';
 
 function Edit({ selected, handleSave }) {
 
@@ -34,8 +35,7 @@ function Edit({ selected, handleSave }) {
   }
 
   function handleEdit() {
-
-
+    console.log(selected)
     const itemData = {
       'name': newName,
       'protein': protein,
@@ -54,20 +54,33 @@ function Edit({ selected, handleSave }) {
   }
 
   return (
-    <div className='form-page'>
-      Name: <input defaultValue={newName} onChange={handleName}/>
-      <br/>
-      Protein: <input defaultValue={protein} onChange={handleProtein}/>
-      <br/>
-      Cook time: <input defaultValue={newCook} onChange={handleCook}/>
-      <br/>
-      Instructions: <input defaultValue={newWeb} onChange={handleWeb}/>
-      <br/>
-      <br/>
-        <button><Link to={`/recipes/${selected.id}`}>Cancel</Link></button>
-        <button onClick={handleEdit}><Link to={`/recipes/${selected.id}`}>Save</Link></button>
+    <Center width='100%' bg='#dbefdc'>
+      <Stack spacing={3} bg='white' padding='20px' borderRadius='10px' >
+        <Text fontSize='20px' fontWeight='bold'>Recipe Edit</Text>
 
-    </div>
+        <Text fontSize='20px' fontWeight='bold'>Name: </Text>
+        <Input defaultValue={newName} onChange={handleName}/>
+        <Text fontSize='20px' fontWeight='bold'>Protein: </Text>
+        <Input defaultValue={protein} onChange={handleProtein}/>
+        <Text fontSize='20px' fontWeight='bold'>Cook time: </Text>
+      <Input defaultValue={newCook} onChange={handleCook}/>
+      <Text fontSize='20px' fontWeight='bold'>Instructions: </Text>
+      <Input defaultValue={newWeb} onChange={handleWeb}/>
+      <br/>
+      <Box>
+      <Button
+        _hover={{background: "white", color: "teal.500",}} 
+        fontSize='20px' 
+        padding='5px'>
+      <Link to={`/recipes/${selected.id}`}>Cancel</Link></Button>
+        <Button 
+        _hover={{background: "white", color: "teal.500",}} 
+        fontSize='20px' 
+        padding='5px'
+        onClick={handleEdit}><Link to={`/recipes/${selected.id}`}>Save</Link></Button>
+        </Box>
+      </Stack>
+    </Center>
   );
 }
 

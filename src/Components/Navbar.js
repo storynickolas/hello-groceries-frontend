@@ -2,6 +2,7 @@ import '../App.css';
 import React from 'react';
 
 import { Link } from 'react-router-dom';
+import { Button, Flex, Box, Wrap } from '@chakra-ui/react';
 
 function Navbar({ handlePage }) {
 
@@ -21,15 +22,45 @@ function Navbar({ handlePage }) {
     handlePage('/veggie')
   }
 
-  return (
-    <div>
 
-            <button onClick={() => shortest()}>Shortest</button>
-            <button onClick={() => longest()}>Longest</button>
-            <button onClick={() => chicken()}>Chicken</button>
-            <button onClick={() => veggie()}>Veggie</button>
-            <button><Link to="/recipes/new">Add a Item</Link></button>
-            </div>
+
+  return (
+    <Wrap  justifyContent='center' alignItems='center' display='flex' bg='#b7dfb8'>
+      <Button 
+        onClick={() => shortest()} 
+        _hover={{background: "white", color: "teal.500",}} 
+        fontSize='30px' 
+        padding='5px'>
+      Shortest</Button>
+      <Button 
+        onClick={() => longest()} 
+        _hover={{background: "white", color: "teal.500",}}
+        fontSize='30px' 
+        padding='5px'>
+          Longest
+      </Button>
+      <Button 
+        onClick={() => chicken()} 
+        _hover={{background: "white", color: "teal.500",}}
+        fontSize='30px' 
+        padding='5px'>
+          Chicken
+        </Button>
+      <Button
+        onClick={() => veggie()} 
+        _hover={{background: "white", color: "teal.500",}}
+        fontSize='30px' 
+        padding='5px'>
+          Veggie
+      </Button>
+      <Button 
+        _hover={{background: "white", color: "teal.500",}}
+        fontSize='30px' 
+        padding='5px'>
+        <Link to="/recipes/new">
+          Add a Item
+        </Link></Button>
+    </Wrap>
   );
 }
 

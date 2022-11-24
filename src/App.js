@@ -13,7 +13,7 @@ import IngredientAdd from './Components/IngredientAdd';
 import Edit from './Components/Edit';
 import Navbar from './Components/Navbar';
 
-import { Flex, Spacer, Box } from '@chakra-ui/react'
+import { Flex, Spacer, Box, Text } from '@chakra-ui/react'
 
 
 import { Route, BrowserRouter, Switch } from "react-router-dom";
@@ -102,23 +102,24 @@ function App() {
 
   return (
     <ChakraProvider>
-    <div className="App">
-      <h1>Hello Fresh Grocery List</h1>
+        <Text fontSize='50px' padding='5px' fontWeight='bold' align='center' backgroundColor='#4caf50' color='white'>Hello Fresh Grocery List</Text>
         <BrowserRouter>
-          <Navbar handlePage={handlePage} />
-          <br/>
-          <br/>
+              <Navbar handlePage={handlePage} />
           <Switch>
             <Route exact path="/">
               {/* <Home /> */}
             </Route>
             <Route exact path="/recipes">
+  
+                <Box p='4' bg='#dbefdc '>
               <RecipeList
                 key='recipes'
                 title='Recipe List'
                 handleClick={handleClick} 
                 options={options}
               />
+               </Box>
+  
             </Route>
             <Route exact path="/recipes/new">
               <Form 
@@ -128,7 +129,7 @@ function App() {
             </Route>
             <Route exact path='/recipes/:id'>
               <Flex>
-                <Box p='4' w='30%' bg='red.400'>
+                <Box p='4' bg='#dbefdc '>
                   <RecipeList
                     key={special.name}
                     title='Recipe List'
@@ -137,14 +138,14 @@ function App() {
                     handlePage={handlePage}
                   />
                 </Box>
-                <Box p='4' w='45%' bg='red.400'>
+                <Box p='4' bg='#dbefdc '>
                   <Selected 
                     special={special}
                     handleDelete={handleDelete}
                     handleSave={handleSave}
                   />
                 </Box>
-                <Box p='4' w='25%' bg='red.400'>
+                <Box p='4' bg='#dbefdc ' minW='25%' >
                   <Ingredients 
                     special={special} 
                     handleClick={handleClick}
@@ -169,7 +170,6 @@ function App() {
             <Route exact path="/addItem"><Form/></Route>
           </Switch>
         </BrowserRouter>
-      </div>
     </ChakraProvider>
   );
 }
