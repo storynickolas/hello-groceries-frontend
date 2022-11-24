@@ -12,11 +12,12 @@ import Ingredients from './Components/Ingredients';
 import IngredientAdd from './Components/IngredientAdd';
 import Edit from './Components/Edit';
 import Navbar from './Components/Navbar';
+import Home from './Components/Home';
 
-import { Flex, Spacer, Box, Text } from '@chakra-ui/react'
+import { Flex, Center, Button, Box, Text, Stack, Image } from '@chakra-ui/react'
 
 
-import { Route, BrowserRouter, Switch } from "react-router-dom";
+import { Route, BrowserRouter, Switch, Link } from "react-router-dom";
 
 
 function App() {
@@ -102,30 +103,42 @@ function App() {
 
   return (
     <ChakraProvider>
-        <Text fontSize='50px' padding='5px' fontWeight='bold' align='center' backgroundColor='#4caf50' color='white'>Hello Fresh Grocery List</Text>
+        <Text fontSize='50px' padding='5px' fontWeight='bold' align='center' backgroundColor='#4caf50' color='white'>Meal Kit Grocery List</Text>
         <BrowserRouter>
               <Navbar handlePage={handlePage} />
           <Switch>
             <Route exact path="/">
-              {/* <Home /> */}
+            <Box p='4' bg='#dbefdc '>
+              <Home />
+
+            </Box>
             </Route>
+
+
+
+
             <Route exact path="/recipes">
-  
-                <Box p='4' bg='#dbefdc '>
-              <RecipeList
-                key='recipes'
-                title='Recipe List'
-                handleClick={handleClick} 
-                options={options}
-              />
-               </Box>
-  
+              <Box p='4' bg='#dbefdc '>
+              <Center width='100%' bg='#dbefdc'>
+            <Stack spacing={3} bg='white' padding='20px' borderRadius='10px' >
+            <Text fontSize='30px' padding='5px' fontWeight='bold'>Select a Recipe to Get Started</Text>
+            <br />
+                <RecipeList
+                  key='recipes'
+                  title='Recipe List'
+                  handleClick={handleClick} 
+                  options={options}
+                />     
+                </Stack>
+                </Center>
+              </Box>
             </Route>
             <Route exact path="/recipes/new">
               <Form 
                 key='new'
                 title='Add a Recipe'
-                addItem={handleAddItem} /> 
+                addItem={handleAddItem} 
+                special={special}/> 
             </Route>
             <Route exact path='/recipes/:id'>
               <Flex>
@@ -157,11 +170,6 @@ function App() {
               <Edit selected={special} handleSave={handleSave}/>
             </Route>
             <Route exact path={'/recipes/:id/add'}>
-
-                  <Ingredients 
-                special={special} 
-                handleClick={handleClick} />
-
               <IngredientAdd 
                 special={special} 
                 handleAddIngredient={handleAddIngredient}

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 
 import { Link } from 'react-router-dom';
+import { Button, Text, Stack, Input, Center, Box } from '@chakra-ui/react';
 
 function IngredientAdd({ special, handleAddIngredient }) {
 
@@ -30,15 +31,28 @@ function IngredientAdd({ special, handleAddIngredient }) {
   }
 
   return (
-    <div className='form-page'>
-      <h3>Add an Ingredient</h3>
-      Name: <input onChange={handleName}/>
+    <Center width='100%' bg='#dbefdc'>
+      <Stack spacing={3} bg='white' padding='20px' borderRadius='10px' >
+        <Text fontSize='20px' fontWeight='bold'>Add an Ingredient To:</Text>
+        <Text fontSize='20px' fontWeight='bold'>{special.name}</Text>
+        <Text fontSize='20px' fontWeight='bold'>Name: </Text>
+        <Input defaultValue={name} onChange={handleName}/>
       <br/>
-      <br/>
-
-        <button onClick={handleAddition}>Add</button>
-        <button><Link to={`/recipes/${special.id}`}>Cancel</Link></button>
-    </div>
+      <Box>
+      <Button
+      onClick={handleAddition}
+        _hover={{background: "white", color: "teal.500",}} 
+        fontSize='20px' 
+        padding='5px'>
+      Add</Button>
+        <Button 
+        _hover={{background: "white", color: "teal.500",}} 
+        fontSize='20px' 
+        padding='5px'
+        ><Link to={`/recipes/${special.id}`}>Cancel</Link></Button>
+        </Box>
+        </Stack>
+      </Center>
   );
 }
 

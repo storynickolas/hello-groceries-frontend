@@ -1,12 +1,15 @@
 import '../App.css';
 import React, { useState } from 'react';
+import { Box, Center, Text, Button, Input, RadioGroup, Radio, HStack, Stack} from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
-function Form({ addItem }) {
+function Form({ addItem, special }) {
 
   const [protein, setProtein] = useState('')
   const [newName, setNewName] = useState('')
   const [newCook, setNewCook] = useState('')
   const [newWeb, setNewWeb] = useState('')
+  const [hfimage, setHfimage] = useState('')
 
   function handleName(e) {
     e.preventDefault();
@@ -33,10 +36,17 @@ function Form({ addItem }) {
     setProtein(newState)
   }
 
+  function handleImage(e) {
+    e.preventDefault();
+    let newState = e.target.value
+    setHfimage(newState)
+  }
+
   function handlePost(e) {
     e.preventDefault();
     const itemData = {
       'name': newName,
+      'image': hfimage,
       'protein': protein,
       'cook_time': newCook,
       'instructions': newWeb,
@@ -54,26 +64,44 @@ function Form({ addItem }) {
   }
 
   return (
-    <div className='form-page'>
-      <form className='form'>
-        <h1>Add a Recipe</h1>
-        Protein: 
-        <select onChange={handleSelect} className="input">
-          <option value="veggie">Veggie</option>
-          <option value="chicken">Chicken</option>
-          <option value="turkey">Turkey</option>
-        </select>
+    <Center width='100%' bg='#dbefdc'>
+      <Stack spacing={3} bg='white' padding='20px' borderRadius='10px' >
+        <Text fontSize='20px' fontWeight='bold'>Add a Recipe</Text>
+        <Text fontSize='20px' fontWeight='bold'>Protein: </Text>
+        <RadioGroup defaultValue='Itachi'>
+          <HStack onChange={handleSelect} spacing='24px'>
+            <Radio value="Veggie">Veggie</Radio>
+            <Radio value="Chicken">Chicken</Radio>
+            <Radio value="Turkey">Turkey</Radio>
+            <Radio value='Beef'>Ground Beef</Radio>
+          </HStack>
+        </RadioGroup>
         <br/>
-        Name: <input onChange={handleName} className="input"></input>
-        <br/>
-        Cook Time: <input onChange={handleCook} className="input"></input>
-        <br/>
-        Recipe URL: <input onChange={handleWeb} className="input"></input>
-        <div className='submit'>
-          <button onClick={handlePost} className="button">Add Item</button>
-        </div>
-      </form>
-    </div>
+        <Text fontSize='20px' fontWeight='bold'>Name: </Text>
+        <Input onChange={handleName}/>
+        <Text fontSize='20px' fontWeight='bold'>Image URL: </Text>
+        <Input onChange={handleImage}/>
+        <Text fontSize='20px' fontWeight='bold'>Cook Time: </Text>
+        <Input onChange={handleCook}/>
+        <Text fontSize='20px' fontWeight='bold'>Recipe URL: </Text>
+        <Input onChange={handleWeb}/>
+        <br />
+        <Box>
+          <Button
+            _hover={{background: "white", color: "teal.500",}} 
+            fontSize='20px' 
+            padding='5px'>
+          <Link to={`/recipes/${1}`}>Cancel</Link>
+          </Button>
+          <Button 
+            _hover={{background: "white", color: "teal.500",}} 
+            fontSize='20px' 
+            padding='5px'
+            onClick={handlePost}><Link to={`/recipes/${1}`}>Save</Link>
+          </Button>
+          </Box>
+        </Stack>
+    </Center>
   );
 }
 
