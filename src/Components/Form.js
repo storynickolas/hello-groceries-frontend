@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Box, Center, Text, Button, Input, RadioGroup, Radio, HStack, Stack} from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-function Form({ addItem, special }) {
+function Form({ addItem }) {
 
   const [protein, setProtein] = useState('')
   const [newName, setNewName] = useState('')
