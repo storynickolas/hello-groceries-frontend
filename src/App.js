@@ -28,7 +28,7 @@ function App() {
     fetch(`http://localhost:9292/recipes${page}`)
       .then((r) => r.json())
       .then((data) => handlingTest(data))
-  }, [page])
+  }, [page,])
 
   const handlingTest = (data) => {
     setOptions(data)

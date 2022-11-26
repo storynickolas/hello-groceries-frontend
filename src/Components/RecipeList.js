@@ -12,8 +12,8 @@ function RecipeList({ options, handleClick }) {
       </Center>
       {
       options.map((item) => 
-      <Wrap>
-      <ListItem key={item.name} padding='5px'>
+      <Wrap key={item.name}>
+      <ListItem padding='5px'>
         <Button 
           onClick={() => handleClick(item)} 
           _hover={{background: "white", color: "teal.500",}}
