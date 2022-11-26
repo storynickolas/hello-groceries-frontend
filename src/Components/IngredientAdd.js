@@ -42,7 +42,7 @@ function IngredientAdd({ special, handleAddIngredient }) {
         _hover={{background: "white", color: "teal.500",}} 
         fontSize='20px' 
         padding='5px'>
-      Add</Button>
+      <Link to={`/recipes/${special.id}`}>Add</Link></Button>
         <Button 
         _hover={{background: "white", color: "teal.500",}} 
         fontSize='20px' 
