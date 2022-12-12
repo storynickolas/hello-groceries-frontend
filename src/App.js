@@ -20,6 +20,7 @@ import { Route, BrowserRouter, Switch } from "react-router-dom";
 function App() {
   const [options, setOptions] = useState([])
   const [special, setSpecial] = useState([])
+  const [loaded, setLoaded] = useState(false)
 
   const [page, setPage] = useState('')
 
@@ -32,7 +33,7 @@ function App() {
 
   const handlingTest = (data) => {
     setOptions(data)
-    setSpecial(data[0])    
+    setSpecial(data[0]) 
   }
 
   const handlePage = (newPage) => {
@@ -102,7 +103,6 @@ function App() {
     <ChakraProvider>
         <Text fontSize='50px' padding='5px' fontWeight='bold' align='center' backgroundColor='#4caf50' color='white'>Meal Kit Grocery List</Text>
         <BrowserRouter>
-              <Navbar handlePage={handlePage} />
           <Switch>
             <Route exact path="/">
               <Box p='4' bg='#dbefdc '>
@@ -110,6 +110,7 @@ function App() {
               </Box>
             </Route>
             <Route exact path="/recipes">
+            <Navbar handlePage={handlePage} />
             <Box p='4' bg='#dbefdc '>
               <Center width='100%' bg='#dbefdc'>
                 <Stack spacing={3} bg='white' padding='20px' borderRadius='10px' >
@@ -133,6 +134,7 @@ function App() {
                 special={special}/> 
             </Route>
             <Route exact path='/recipes/:id'>
+            <Navbar handlePage={handlePage} />
               <Flex>
                 <Box p='4' bg='#dbefdc '>
                   <RecipeList
