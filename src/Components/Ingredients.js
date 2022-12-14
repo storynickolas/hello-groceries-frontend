@@ -22,7 +22,7 @@ function Ingredients({ special }) {
           </UnorderedList>
           </Center>
           <Center width='100%'>
-    <Button  
+      <Button  
         _hover={{background: "white", color: "teal.500",}} 
         fontSize='20px' 
         padding='5px'>

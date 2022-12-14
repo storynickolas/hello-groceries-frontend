@@ -6,10 +6,11 @@ import { Center, Text, Image, Button, ListItem, List, Wrap } from '@chakra-ui/re
 function Selected({ special, handleDelete }) {
 
   return (
-    <Wrap bg='white' borderRadius='10px'>
+     <Wrap bg='white' borderRadius='10px'>
       <Center width='100%'>
         <Text fontSize='30px' padding='5px' fontWeight='bold'>{special.name}</Text> 
       </Center>
+      <Text fontSize='30px' padding='5px' fontWeight='bold'>No Recipes Found</Text> 
       <Center width='100%'>
         <Button 
         onClick={() => handleDelete()}
@@ -25,7 +26,8 @@ function Selected({ special, handleDelete }) {
       </Center>
       <Center width='100%'>
       <Image src={special.image} alt={special.name} width='80%'
-      /></Center>
+      />
+      </Center>
       <Center width='100%'>
       <List fontSize='20px'>
         <ListItem>{`Protein: ${special.protein}`}</ListItem> 

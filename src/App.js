@@ -20,8 +20,6 @@ import { Route, BrowserRouter, Switch } from "react-router-dom";
 function App() {
   const [options, setOptions] = useState([])
   const [special, setSpecial] = useState([])
-  const [loaded, setLoaded] = useState(false)
-
   const [page, setPage] = useState('')
 
   // Request based on selection from navbar - default to first recipe in list
@@ -135,10 +133,11 @@ function App() {
             </Route>
             <Route exact path='/recipes/:id'>
             <Navbar handlePage={handlePage} />
+             {special ?
               <Flex>
                 <Box p='4' bg='#dbefdc '>
                   <RecipeList
-                    key={special.name}
+                    key='Recipe List'
                     title='Recipe List'
                     handleClick={handleClick} 
                     options={options}
@@ -159,6 +158,9 @@ function App() {
                   />
                 </Box>
               </Flex>
+              :
+               <Text fontSize='30px' padding='5px' fontWeight='bold'>No Recipes Found</Text> 
+              }
             </Route>
             <Route exact path={'/recipes/:id/edit'}>
               <Edit selected={special} handleSave={handleSave}/>
